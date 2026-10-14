@@ -1,0 +1,226 @@
+/**
+ * API Service Boundary
+ *
+ * Provides typed access to shops, products, crowd data, and orders.
+ * Contains clearly marked demonstration data for Phase 2 prototype evaluation.
+ */
+
+import { Shop, Category, Product, Order, CrowdReportSummary } from '../../types/index.ts';
+import { JAIPUR_COORDINATES } from '../maps/index.ts';
+
+export const DEMO_DATA_TAG = 'DEMO_DATA_SAMPLE';
+
+export const DEMO_CATEGORIES: Category[] = [
+  { id: 'cat-1', slug: 'groceries', nameEn: 'Daily Groceries & Kirana', nameHi: 'दैनिक किराना व राशन', isActive: true },
+  { id: 'cat-2', slug: 'dairy', nameEn: 'Dairy & Fresh Milk', nameHi: 'डेयरी व ताज़ा दूध', isActive: true },
+  { id: 'cat-3', slug: 'fruits-veg', nameEn: 'Fresh Fruits & Vegetables', nameHi: 'ताज़े फल व सब्ज़ियाँ', isActive: true },
+  { id: 'cat-4', slug: 'bakery-snacks', nameEn: 'Bakery & Sweets', nameHi: 'बेकरी व मिष्ठान', isActive: true },
+  { id: 'cat-5', slug: 'pharmacy', nameEn: 'Local Pharmacy & Wellness', nameHi: 'दवाइयाँ व स्वास्थ्य', isActive: true },
+  { id: 'cat-6', slug: 'stationery', nameEn: 'Stationery & Books', nameHi: 'स्टेशनरी व पुस्तकें', isActive: true },
+];
+
+export const DEMO_SHOPS: Shop[] = [
+  {
+    id: 'shop-jaipur-1',
+    ownerUserId: 'vendor-user-1',
+    name: 'Sharma General Store (शर्मा जनरल स्टोर)',
+    description: 'Fresh pulses, spices, flour, and daily household groceries. Fast pickup ready in 15 minutes.',
+    categoryId: 'cat-1',
+    categoryName: 'Daily Groceries & Kirana',
+    addressText: 'Shop No. 14, Bapu Bazaar, Pink City',
+    landmark: 'Near Sanganeri Gate',
+    latitude: 26.9185,
+    longitude: 75.8242,
+    verificationStatus: 'verified',
+    availabilityStatus: 'open',
+    distanceMeters: 420,
+    latestCrowd: {
+      level: 'low',
+      source: 'vendor',
+      observedAt: new Date(Date.now() - 15 * 60000).toISOString(),
+      expiresAt: new Date(Date.now() + 75 * 60000).toISOString(),
+      isStale: false,
+      note: 'Very few customers right now. Counters are clear.',
+    },
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'shop-jaipur-2',
+    ownerUserId: 'vendor-user-2',
+    name: 'Kanhaiya Dairy & Sweets (कन्हैया डेयरी)',
+    description: 'Fresh cow & buffalo milk, curd, paneer, and local sweets made fresh every morning.',
+    categoryId: 'cat-2',
+    categoryName: 'Dairy & Fresh Milk',
+    addressText: 'Plot 42, Raja Park Main Market',
+    landmark: 'Opposite Lane 4 Gurudwara',
+    latitude: 26.8924,
+    longitude: 75.8315,
+    verificationStatus: 'verified',
+    availabilityStatus: 'open',
+    distanceMeters: 1200,
+    latestCrowd: {
+      level: 'moderate',
+      source: 'customer',
+      observedAt: new Date(Date.now() - 40 * 60000).toISOString(),
+      expiresAt: new Date(Date.now() + 50 * 60000).toISOString(),
+      isStale: false,
+      note: 'Normal evening rush, wait time around 5 mins.',
+    },
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'shop-jaipur-3',
+    ownerUserId: 'vendor-user-3',
+    name: 'Pink City Sabzi Mandi Outlet (गुलाबी नगर सब्जी भंडार)',
+    description: 'Direct farm-fresh vegetables and local fruits. Cleaned and pre-weighed packets available.',
+    categoryId: 'cat-3',
+    categoryName: 'Fresh Fruits & Vegetables',
+    addressText: 'Stall 8, Lal Kothi Sabzi Market, Tonk Road',
+    landmark: 'Near Vidhan Sabha circle',
+    latitude: 26.8872,
+    longitude: 75.8015,
+    verificationStatus: 'verified',
+    availabilityStatus: 'open',
+    distanceMeters: 1850,
+    latestCrowd: {
+      level: 'high',
+      source: 'vendor',
+      observedAt: new Date(Date.now() - 10 * 60000).toISOString(),
+      expiresAt: new Date(Date.now() + 80 * 60000).toISOString(),
+      isStale: false,
+      note: 'Peak shopping hour. Pre-booked orders will be expedited at pickup counter.',
+    },
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'shop-jaipur-4',
+    ownerUserId: 'vendor-user-4',
+    name: 'Marwar Medicos (मारवाड़ मेडिकल)',
+    description: 'Prescription medicines, first aid, baby essentials, and daily wellness items.',
+    categoryId: 'cat-5',
+    categoryName: 'Local Pharmacy & Wellness',
+    addressText: 'Shop 2, Vaishali Nagar Community Centre',
+    landmark: 'Near Amrapali Circle',
+    latitude: 26.9075,
+    longitude: 75.7423,
+    verificationStatus: 'pending',
+    availabilityStatus: 'open',
+    distanceMeters: 3100,
+    latestCrowd: {
+      level: 'unknown',
+      source: 'customer',
+      observedAt: new Date(Date.now() - 180 * 60000).toISOString(),
+      expiresAt: new Date(Date.now() - 90 * 60000).toISOString(),
+      isStale: true,
+      note: 'Last reported over 3 hours ago.',
+    },
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+];
+
+export const DEMO_PRODUCTS: Product[] = [
+  {
+    id: 'prod-1',
+    shopId: 'shop-jaipur-1',
+    shopName: 'Sharma General Store',
+    categoryId: 'cat-1',
+    name: 'Chakki Fresh Atta (आटा)',
+    description: '100% whole wheat flour freshly milled, 5kg pack.',
+    status: 'active',
+    variants: [
+      {
+        id: 'var-1-1',
+        productId: 'prod-1',
+        variantLabel: '5 kg Pack',
+        unit: 'pack',
+        priceMinor: 21500, // ₹215.00
+        currency: 'INR',
+        quantityAvailable: 18,
+        quantityReserved: 0,
+        availabilityStatus: 'available',
+        lastVerifiedAt: new Date().toISOString(),
+      },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-2',
+    shopId: 'shop-jaipur-1',
+    shopName: 'Sharma General Store',
+    categoryId: 'cat-1',
+    name: 'Organic Basmati Rice (बासमती चावल)',
+    description: 'Aged long grain aromatic rice for daily cooking.',
+    status: 'active',
+    variants: [
+      {
+        id: 'var-1-2',
+        productId: 'prod-2',
+        variantLabel: '1 kg Pouch',
+        unit: 'kg',
+        priceMinor: 11000, // ₹110.00
+        currency: 'INR',
+        quantityAvailable: 24,
+        quantityReserved: 0,
+        availabilityStatus: 'available',
+        lastVerifiedAt: new Date().toISOString(),
+      },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-3',
+    shopId: 'shop-jaipur-2',
+    shopName: 'Kanhaiya Dairy & Sweets',
+    categoryId: 'cat-2',
+    name: 'Fresh Cow Milk (ताज़ा गाय का दूध)',
+    description: 'Pouch packed fresh cow milk, 500ml.',
+    status: 'active',
+    variants: [
+      {
+        id: 'var-2-1',
+        productId: 'prod-3',
+        variantLabel: '500 ml Pouch',
+        unit: 'pouch',
+        priceMinor: 3000, // ₹30.00
+        currency: 'INR',
+        quantityAvailable: 35,
+        quantityReserved: 2,
+        availabilityStatus: 'available',
+        lastVerifiedAt: new Date().toISOString(),
+      },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-4',
+    shopId: 'shop-jaipur-2',
+    shopName: 'Kanhaiya Dairy & Sweets',
+    categoryId: 'cat-2',
+    name: 'Fresh Malai Paneer (मलाई पनीर)',
+    description: 'Soft homemade cottage cheese prepared daily.',
+    status: 'active',
+    variants: [
+      {
+        id: 'var-2-2',
+        productId: 'prod-4',
+        variantLabel: '250 gm Pack',
+        unit: 'pack',
+        priceMinor: 9500, // ₹95.00
+        currency: 'INR',
+        quantityAvailable: 12,
+        quantityReserved: 0,
+        availabilityStatus: 'available',
+        lastVerifiedAt: new Date().toISOString(),
+      },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+];

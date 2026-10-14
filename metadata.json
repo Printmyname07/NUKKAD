@@ -1,0 +1,6 @@
+{
+  "name": "Nukkad - Local Commerce Marketplace",
+  "description": "Bilingual AI-powered local marketplace connecting customers with nearby neighborhood shops for product discovery, crowd level awareness, and local pickup.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
