@@ -165,12 +165,6 @@ Contributions and bug reports are welcome.
 4. Run the checks available in the project.
 5. Open a pull request describing the change and verification performed.
 
-Please do not commit secrets, local environment files, generated credentials, or personal data.
-
-## License
-
-No license has been specified yet. Unless a license is added to this repository, reuse and redistribution are not automatically granted. Add a `LICENSE` file before inviting external contributions or distributing the project.
-
 ---
 
 Made for neighborhood commerce with **NUKKAD**.
