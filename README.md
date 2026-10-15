@@ -1,6 +1,8 @@
 # NUKKAD — Your Neighborhood, One Marketplace
 
-NUKKAD is a local-commerce marketplace concept designed to connect customers with nearby shops and help neighborhood vendors manage their stores digitally. Customers can discover shops and products, while vendors can manage product listings, prices, stock, shop availability, and customer orders from a dedicated Vendor Portal.
+“Have you ever visited a local street vendor only to discover that the shop is closed, your product is unavailable, or the queue is too long? What if you could know all this before leaving home?”
+
+NUKKAD is a local-commerce marketplace concept designed to connect customers with vendor stalls and help neighborhood vendors manage their stores digitally. Customers can discover products, while vendors can manage product listings, prices, stock, shop availability, and customer orders from a dedicated Vendor Portal.
 
 > **Project status:** Prototype / development project. Features described below should be considered implemented only where they are present and verified in the current codebase.
 
@@ -75,7 +77,7 @@ Script names vary by project. Use the scripts actually present in `package.json`
 4. Review orders and update their status where supported.
 5. Open the Voice Assistant, grant microphone permission if prompted, choose a supported language, and speak a command.
 
-### Voice Assistant examples
+### Voice Assistant examples (Future Scope)
 
 Examples of intended commands include:
 
